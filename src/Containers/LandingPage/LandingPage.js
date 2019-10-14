@@ -8,10 +8,11 @@ import people from "../../images/peple-com.png";
 import onlineCourse from "../../images/course-provid.png";
 import outSourcing from "../../images/outsourcing.png";
 import research from "../../images/research.png";
-import correct from "../../images/correct.png";
-import wrong from "../../images/wrong.svg";
+
 import "./LandingPage.css";
 import { Spring, config } from "react-spring/renderprops";
+import { Link } from "react-router-dom";
+import ContactUs from '../../Component/ContactUs/ContactUs';
 
 export default class LandingPage extends Component {
   render() {
@@ -224,7 +225,7 @@ export default class LandingPage extends Component {
             </section>
 
             <div className="space200"></div>
-
+            
             <section className="sloganContainer">
               <h1 className="sloganContainer__name">Join The Staff Asia</h1>
               <p className="sloganContainer__slogan">
@@ -232,73 +233,19 @@ export default class LandingPage extends Component {
                 explicabo, facilis pariatur quisquam inventore nostrum minus?
                 Autem quaerat doloribus nulla.
               </p>
-              <button className="headerTextContainer__button joinus__button">
-                View Open Positions
-              </button>
+              < Link to="/hiring">
+                <button className="headerTextContainer__button joinus__button">
+                  View Open Positions
+                </button>
+              </Link>
             </section>
           </div>
         </section>
         <div className="height__200"></div>
         <div className="space75"></div>
-        <div className="row__1134">
-          <div className="contactWrapper">
-            <div className="contactUsFirstPart">
-              <h1 className="contactUsFirstPart__title">
-                Don't Hesitate Us To Contact Us For Any Information
-              </h1>
-              <p className="contactUsFirstPart__location">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-                expedita dicta optio molestiae, impedit tempora?
-              </p>
-              <p className="contactUsFirstPart__contact">
-                +8801310370313/+8801733717022
-              </p>
-            </div>
-            <div className="contactUsForm">
-              <div>
-                <input
-                  className="input input_testing name"
-                  placeholder="Your Name"
-                />
-                <label for="" className="label">
-                  Your Name
-                </label>
-                <img src={correct} className="right" />
-                <img src={wrong} className="wrong" />
-              </div>
-              <div>
-                <input
-                  className="input input_testing email"
-                  placeholder="Your Email"
-                />
-                <label for="" className="label">
-                  Your Email
-                </label>
-                <img src={correct} className="right" />
-                <img src={wrong} className="wrong" />
-              </div>
-              <div>
-                <input className="input" placeholder="Subject" />
-                <label for="" className="label">
-                  Subject
-                </label>
-              </div>
-              <div>
-                <textarea
-                  className="input"
-                  placeholder="Your Message"
-                  row="20"
-                ></textarea>
-                <label for="" className="label">
-                  Your Message
-                </label>
-              </div>
-              <button className="headerTextContainer__button contact_btn">
-                Send Message
-              </button>
-            </div>
-          </div>
-        </div>
+
+        <ContactUs />
+        
         <div className="space100"></div>
         <footer>
           <p className="footerText">

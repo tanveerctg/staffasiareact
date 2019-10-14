@@ -390,7 +390,7 @@ footer {
   font-family: NexaLight;
 }
 
-.right {
+/* .right {
   width: 15px;
   margin-left: 5px;
 }
@@ -441,7 +441,7 @@ footer {
 
 .input.input_testing.green {
   border-color: 1px solid green;
-}
+} */
 
 [data-scroll] {
   transition: opacity 1s;

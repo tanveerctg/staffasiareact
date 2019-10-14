@@ -1,0 +1,53 @@
+
+.right {
+  width: 15px;
+  margin-left: 15px;
+}
+
+.wrong {
+  width: 15px;
+  margin-left: 15px;
+}
+
+.input_testing.valid+label+img {
+  opacity: 1;
+  display: inline;
+}
+
+.input_testing.valid+label+img+img {
+  opacity: 0;
+  display: none;
+}
+
+.input_testing.invalid+label+img+img {
+  opacity: 1;
+  display: inline;
+}
+
+.input_testing.invalid+label+img {
+  opacity: 0;
+  display: none;
+}
+
+.right {
+  opacity: 0;
+  display: none;
+}
+
+.wrong {
+  opacity: 0;
+  display: none;
+}
+
+.empty {
+  display: none;
+
+}
+
+.input.input_testing.red {
+  border-bottom: 1px solid red;
+}
+
+.input.input_testing.green {
+  border-color: 1px solid green;
+} 
