@@ -8,13 +8,54 @@ import people from "../../images/peple-com.png";
 import onlineCourse from "../../images/course-provid.png";
 import outSourcing from "../../images/outsourcing.png";
 import research from "../../images/research.png";
-
+import ScrollOut from "scroll-out";
 import "./LandingPage.css";
 import { Spring, config } from "react-spring/renderprops";
 import { Link } from "react-router-dom";
 import ContactUs from '../../Component/ContactUs/ContactUs';
 
 export default class LandingPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  componentDidMount(){
+    window.addEventListener("scroll", function(e) {
+      if (window.scrollY > 400) {
+        myFunction();
+      } else {
+        console.log("false");
+      }
+    });
+    const header = document.querySelector(".header");
+    const nav = document.querySelector(".nav");
+    const logo = document.querySelector(".logo");
+    window.onscroll = function() {
+      myFunction();
+    };
+
+    function myFunction() {
+      if (document.documentElement.scrollTop >= 100) {
+        header.style.marginTop = "0";
+        // header.style.position='sticky';
+        nav.style.position = "fixed";
+        nav.style.top = "0";
+        nav.style.left = "0";
+        nav.style.padding = "10px";
+        // nav.style.marginBottom='0';
+        nav.style.zIndex = "200";
+        nav.style.justifyContent = "spaceEvenly";
+        nav.style.background = "#fefefe";
+      } else {
+        nav.style.background = "transparent";
+        nav.style.top = "0";
+        nav.style.padding = "0px";
+        header.style.marginTop = "52px";
+        nav.style.position = "inherit";
+      }
+    }
+  }
   render() {
     return (
       <React.Fragment>
@@ -25,7 +66,7 @@ export default class LandingPage extends Component {
                 <img src={logo} className="logo" />
               </div>
               <div className="navItemsContainer">
-                <div className="navItem">Home</div>
+                <div className="navItem" ref={this.myRef} onClick={this.clickHandler}>Home</div>
                 <div className="navItem">About us</div>
                 <div className="navItem">What we do</div>
                 <div className="navItem">Job posts</div>
