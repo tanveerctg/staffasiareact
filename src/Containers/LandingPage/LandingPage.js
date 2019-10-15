@@ -21,6 +21,7 @@ export default class LandingPage extends Component {
     this.myRef = React.createRef();
   }
   componentDidMount(){
+    ScrollOut({once:true});
     window.addEventListener("scroll", function(e) {
       if (window.scrollY > 400) {
         myFunction();

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import correct from "../../images/correct.png";
 import wrong from "../../images/wrong.png";
 
+
 export default class ContactUs extends Component {
 
     state={
@@ -116,10 +117,20 @@ export default class ContactUs extends Component {
             this.setState({message:false})
           }
     }
+    submitHandler=()=>{
+
+      const {name,email,subject,message}=this.state;
+
+      if(name && email && subject && message){
+        console.log('all ok')
+      }else{
+        console.log('not correct')
+      }
+    }
     render() {
+     
         const {name,email,subject,message}=this.state;
         console.log(name,email,subject,message)
-
         return (
             <div className="row__1134">
             <div className="contactWrapper">
@@ -181,7 +192,7 @@ export default class ContactUs extends Component {
                   <img src={correct} className="right"/>
                  <img src={wrong} className="wrong"/>
                 </div>
-                <button className="headerTextContainer__button contact_btn">
+                <button className="headerTextContainer__button contact_btn" onClick={this.submitHandler}>
                   Send Message
                 </button>
               </div>
