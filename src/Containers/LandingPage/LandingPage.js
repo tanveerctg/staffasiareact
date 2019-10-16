@@ -8,12 +8,54 @@ import people from "../../images/peple-com.png";
 import onlineCourse from "../../images/course-provid.png";
 import outSourcing from "../../images/outsourcing.png";
 import research from "../../images/research.png";
-import correct from "../../images/correct.png";
-import wrong from "../../images/wrong.svg";
+import ScrollOut from "scroll-out";
 import "./LandingPage.css";
 import { Spring, config } from "react-spring/renderprops";
+import { Link } from "react-router-dom";
+import ContactUs from "../../Component/ContactUs/ContactUs";
 
 export default class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  componentDidMount() {
+    ScrollOut({ once: true });
+    window.addEventListener("scroll", function(e) {
+      if (window.scrollY > 400) {
+        myFunction();
+      } else {
+        console.log("false");
+      }
+    });
+    const header = document.querySelector(".header");
+    const nav = document.querySelector(".nav");
+    const logo = document.querySelector(".logo");
+    window.onscroll = function() {
+      myFunction();
+    };
+
+    function myFunction() {
+      if (document.documentElement.scrollTop >= 100) {
+        header.style.marginTop = "0";
+        // header.style.position='sticky';
+        nav.style.position = "fixed";
+        nav.style.top = "0";
+        nav.style.left = "0";
+        nav.style.padding = "10px";
+        // nav.style.marginBottom='0';
+        nav.style.zIndex = "200";
+        nav.style.justifyContent = "spaceEvenly";
+        nav.style.background = "#fefefe";
+      } else {
+        nav.style.background = "transparent";
+        nav.style.top = "0";
+        nav.style.padding = "0px";
+        header.style.marginTop = "52px";
+        nav.style.position = "inherit";
+      }
+    }
+  }
   render() {
     return (
       <React.Fragment>
@@ -24,7 +66,13 @@ export default class LandingPage extends Component {
                 <img src={logo} className="logo" />
               </div>
               <div className="navItemsContainer">
-                <div className="navItem">Home</div>
+                <div
+                  className="navItem"
+                  ref={this.myRef}
+                  onClick={this.clickHandler}
+                >
+                  Home
+                </div>
                 <div className="navItem">About us</div>
                 <div className="navItem">What we do</div>
                 <div className="navItem">Job posts</div>
@@ -232,73 +280,19 @@ export default class LandingPage extends Component {
                 explicabo, facilis pariatur quisquam inventore nostrum minus?
                 Autem quaerat doloribus nulla.
               </p>
-              <button className="headerTextContainer__button joinus__button">
-                View Open Positions
-              </button>
+              <Link to="/hiring">
+                <button className="headerTextContainer__button joinus__button">
+                  View Open Positions
+                </button>
+              </Link>
             </section>
           </div>
         </section>
         <div className="height__200"></div>
         <div className="space75"></div>
-        <div className="row__1134">
-          <div className="contactWrapper">
-            <div className="contactUsFirstPart">
-              <h1 className="contactUsFirstPart__title">
-                Don't Hesitate Us To Contact Us For Any Information
-              </h1>
-              <p className="contactUsFirstPart__location">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-                expedita dicta optio molestiae, impedit tempora?
-              </p>
-              <p className="contactUsFirstPart__contact">
-                +8801310370313/+8801733717022
-              </p>
-            </div>
-            <div className="contactUsForm">
-              <div>
-                <input
-                  className="input input_testing name"
-                  placeholder="Your Name"
-                />
-                <label for="" className="label">
-                  Your Name
-                </label>
-                <img src={correct} className="right" />
-                <img src={wrong} className="wrong" />
-              </div>
-              <div>
-                <input
-                  className="input input_testing email"
-                  placeholder="Your Email"
-                />
-                <label for="" className="label">
-                  Your Email
-                </label>
-                <img src={correct} className="right" />
-                <img src={wrong} className="wrong" />
-              </div>
-              <div>
-                <input className="input" placeholder="Subject" />
-                <label for="" className="label">
-                  Subject
-                </label>
-              </div>
-              <div>
-                <textarea
-                  className="input"
-                  placeholder="Your Message"
-                  row="20"
-                ></textarea>
-                <label for="" className="label">
-                  Your Message
-                </label>
-              </div>
-              <button className="headerTextContainer__button contact_btn">
-                Send Message
-              </button>
-            </div>
-          </div>
-        </div>
+
+        <ContactUs />
+
         <div className="space100"></div>
         <footer>
           <p className="footerText">

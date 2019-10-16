@@ -147,6 +147,7 @@ nav {
 
 .joinus__button {
     margin-top: 20px;
+    outline: none;
 }
 
 .imgContainer {
@@ -442,21 +443,17 @@ footer {
 .input.input_testing.green {
     border-color: 1px solid green;
 }
-
 [data-scroll] {
     transition: opacity 1s;
 }
-
 [data-scroll="in"] {
     opacity: 1;
     transform: translateY(0);
 }
-
-[data-scroll="out"] {
+  [data-scroll="out"] {
     opacity: 0;
     transform: translateY(-30);
-}
-
+  }
 
 
 @media only screen and (max-width: 901px) {
