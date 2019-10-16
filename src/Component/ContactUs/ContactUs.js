@@ -1,18 +1,26 @@
 import React, { Component } from "react";
 import correct from "../../images/correct.png";
 import wrong from "../../images/wrong.png";
-import Loading from '../UI/Loader'; 
+import Loading from "../UI/Loader";
 import { firebase, database } from "../../firebase";
-
+import Snackbar from "@material-ui/core/Snackbar";
 
 export default class ContactUs extends Component {
+  constructor(props) {
+    super(props);
+    this.textarea = React.createRef();
+    this.name = React.createRef();
+    this.email = React.createRef();
+    this.subject = React.createRef();
+  }
   state = {
     name: false,
     email: false,
     subject: false,
     message: false,
-    loading:false,
-    err:false
+    loading: false,
+    err: false,
+    snackOpen: false
   };
 
   nameChangeHandler = e => {
@@ -118,28 +126,46 @@ export default class ContactUs extends Component {
     }
   };
   submitHandler = () => {
-    const { name, email, subject, message,loading } = this.state;
+    const { name, email, subject, message, loading } = this.state;
+
     const data = { name, email, subject, message };
     if (name && email && subject && message) {
       console.log("all ok");
-      this.setState({loading:true});
+      this.setState({ loading: true });
+
       database
         .ref("messages")
         .push(data)
         .then(res => {
-          this.setState({loading:false});
+          this.textarea.current.value = null;
+          this.name.current.value = null;
+          this.email.current.value = null;
+          this.subject.current.value = null;
+
+          this.textarea.current.classList.remove("valid");
+          this.name.current.classList.remove("valid");
+          this.email.current.classList.remove("valid");
+          this.subject.current.classList.remove("valid");
+
+          this.setState({ loading: false });
+          this.setState({ snackOpen: true }, () => {
+            setTimeout(() => {
+              this.setState({ snackOpen: false });
+            }, 3000);
+          });
+
           console.log("done");
         });
     } else {
-      this.setState({err:true});
-      setTimeout(()=>{
-        this.setState({err:false})
-      },2000)
+      this.setState({ err: true });
+      setTimeout(() => {
+        this.setState({ err: false });
+      }, 2000);
       console.log("not correct");
     }
   };
   render() {
-    const { name, email, subject, message,loading,err } = this.state;
+    const { name, email, subject, message, loading, err } = this.state;
     console.log(name, email, subject, message);
     return (
       <div className="row__1134">
@@ -162,6 +188,7 @@ export default class ContactUs extends Component {
                 className="input input_testing name"
                 placeholder="Your Name"
                 onChange={this.nameChangeHandler}
+                ref={this.name}
               />
               <label for="" className="label">
                 Your Name
@@ -174,6 +201,7 @@ export default class ContactUs extends Component {
                 className="input input_testing email"
                 placeholder="Your Email"
                 onChange={this.emailChangeHandler}
+                ref={this.email}
               />
               <label for="" className="label">
                 Your Email
@@ -186,6 +214,7 @@ export default class ContactUs extends Component {
                 className="input input_testing"
                 placeholder="Subject"
                 onChange={this.subjectChangeHandler}
+                ref={this.subject}
               />
               <label for="" className="label">
                 Subject
@@ -199,6 +228,7 @@ export default class ContactUs extends Component {
                 placeholder="Your Message"
                 row="20"
                 onChange={this.msgChangeHandler}
+                ref={this.textarea}
               ></textarea>
               <label for="" className="label">
                 Your Message
@@ -206,22 +236,33 @@ export default class ContactUs extends Component {
               <img src={correct} className="right" />
               <img src={wrong} className="wrong" />
             </div>
-            {
-              loading ? <Loading /> :<button
-              className="headerTextContainer__button contact_btn"
-              onClick={this.submitHandler}
-            >
-              Send Message
-            </button>
-            }
-            {
-              err ? 
-              <div className="error_msg" style={{color:'#D8000C'}}>
+            {loading ? (
+              <Loading />
+            ) : (
+              <button
+                className="headerTextContainer__button contact_btn"
+                onClick={this.submitHandler}
+              >
+                Send Message
+              </button>
+            )}
+            {err ? (
+              <div className="error_msg" style={{ color: "#D8000C" }}>
                 Please Fill in All Fields
-              </div> :null
-            }
-   
+              </div>
+            ) : null}
           </div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            open={this.state.snackOpen}
+            ContentProps={{
+              "aria-describedby": "message-id"
+            }}
+            message={<span id="message-id">Message Sent</span>}
+          />
         </div>
       </div>
     );
