@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import correct from "../../images/correct.png";
 import wrong from "../../images/wrong.png";
+import Loading from '../UI/Loader'; 
 import { firebase, database } from "../../firebase";
+
 
 export default class ContactUs extends Component {
   state = {
     name: false,
     email: false,
     subject: false,
-    message: false
+    message: false,
+    loading:false,
+    err:false
   };
 
   nameChangeHandler = e => {
@@ -21,7 +25,7 @@ export default class ContactUs extends Component {
         e.target.classList.add("green");
         e.target.classList.remove("invalid");
         e.target.classList.add("valid");
-        this.setState({ name: true });
+        this.setState({ name: e.target.value });
       } else {
         e.target.classList.add("red");
         e.target.classList.remove("green");
@@ -47,7 +51,7 @@ export default class ContactUs extends Component {
         e.target.classList.add("green");
         e.target.classList.remove("invalid");
         e.target.classList.add("valid");
-        this.setState({ email: true });
+        this.setState({ email: e.target.value });
       } else {
         e.target.classList.add("red");
         e.target.classList.remove("green");
@@ -72,7 +76,7 @@ export default class ContactUs extends Component {
         e.target.classList.add("green");
         e.target.classList.remove("invalid");
         e.target.classList.add("valid");
-        this.setState({ subject: true });
+        this.setState({ subject: e.target.value });
       } else {
         e.target.classList.add("red");
         e.target.classList.remove("green");
@@ -97,7 +101,7 @@ export default class ContactUs extends Component {
         e.target.classList.add("green");
         e.target.classList.remove("invalid");
         e.target.classList.add("valid");
-        this.setState({ message: true });
+        this.setState({ message: e.target.value });
       } else {
         e.target.classList.add("red");
         e.target.classList.remove("green");
@@ -114,23 +118,28 @@ export default class ContactUs extends Component {
     }
   };
   submitHandler = () => {
-    const { name, email, subject, message } = this.state;
+    const { name, email, subject, message,loading } = this.state;
     const data = { name, email, subject, message };
     if (name && email && subject && message) {
       console.log("all ok");
-
+      this.setState({loading:true});
       database
-        .ref("messagessss")
+        .ref("messages")
         .push(data)
         .then(res => {
+          this.setState({loading:false});
           console.log("done");
         });
     } else {
+      this.setState({err:true});
+      setTimeout(()=>{
+        this.setState({err:false})
+      },2000)
       console.log("not correct");
     }
   };
   render() {
-    const { name, email, subject, message } = this.state;
+    const { name, email, subject, message,loading,err } = this.state;
     console.log(name, email, subject, message);
     return (
       <div className="row__1134">
@@ -197,12 +206,21 @@ export default class ContactUs extends Component {
               <img src={correct} className="right" />
               <img src={wrong} className="wrong" />
             </div>
-            <button
+            {
+              loading ? <Loading /> :<button
               className="headerTextContainer__button contact_btn"
               onClick={this.submitHandler}
             >
               Send Message
             </button>
+            }
+            {
+              err ? 
+              <div className="error_msg" style={{color:'#D8000C'}}>
+                Please Fill in All Fields
+              </div> :null
+            }
+   
           </div>
         </div>
       </div>
