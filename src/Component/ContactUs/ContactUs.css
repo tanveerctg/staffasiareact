@@ -43,7 +43,10 @@
   display: none;
 
 }
-
+.error_msg {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
 .input.input_testing.red {
   border-bottom: 1px solid red;
 }
