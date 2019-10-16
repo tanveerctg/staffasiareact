@@ -1,13 +1,9 @@
 import React from "react";
 import LandingPage from "./Containers/LandingPage/LandingPage";
-import Hiring from './Containers/Hiring/Hiring';
+import Hiring from "./Containers/Hiring/Hiring";
 import { Switch, Route } from "react-router-dom";
-import ScrollOut from "scroll-out";
-import {database} from './firebase';
 
-console.log( database)
 function App() {
-  ScrollOut();
   return (
     <Switch>
       <Route path="/" exact component={LandingPage} />

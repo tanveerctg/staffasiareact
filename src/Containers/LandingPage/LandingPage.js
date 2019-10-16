@@ -12,16 +12,15 @@ import ScrollOut from "scroll-out";
 import "./LandingPage.css";
 import { Spring, config } from "react-spring/renderprops";
 import { Link } from "react-router-dom";
-import ContactUs from '../../Component/ContactUs/ContactUs';
+import ContactUs from "../../Component/ContactUs/ContactUs";
 
 export default class LandingPage extends Component {
-
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
   }
-  componentDidMount(){
-    ScrollOut({once:true});
+  componentDidMount() {
+    ScrollOut({ once: true });
     window.addEventListener("scroll", function(e) {
       if (window.scrollY > 400) {
         myFunction();
@@ -67,7 +66,13 @@ export default class LandingPage extends Component {
                 <img src={logo} className="logo" />
               </div>
               <div className="navItemsContainer">
-                <div className="navItem" ref={this.myRef} onClick={this.clickHandler}>Home</div>
+                <div
+                  className="navItem"
+                  ref={this.myRef}
+                  onClick={this.clickHandler}
+                >
+                  Home
+                </div>
                 <div className="navItem">About us</div>
                 <div className="navItem">What we do</div>
                 <div className="navItem">Job posts</div>
@@ -267,7 +272,7 @@ export default class LandingPage extends Component {
             </section>
 
             <div className="space200"></div>
-            
+
             <section className="sloganContainer">
               <h1 className="sloganContainer__name">Join The Staff Asia</h1>
               <p className="sloganContainer__slogan">
@@ -275,7 +280,7 @@ export default class LandingPage extends Component {
                 explicabo, facilis pariatur quisquam inventore nostrum minus?
                 Autem quaerat doloribus nulla.
               </p>
-              < Link to="/hiring">
+              <Link to="/hiring">
                 <button className="headerTextContainer__button joinus__button">
                   View Open Positions
                 </button>
@@ -287,7 +292,7 @@ export default class LandingPage extends Component {
         <div className="space75"></div>
 
         <ContactUs />
-        
+
         <div className="space100"></div>
         <footer>
           <p className="footerText">
