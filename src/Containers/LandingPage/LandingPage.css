@@ -64,12 +64,22 @@ header {
 
 nav {
     width: 100%;
-    /* background: green; */
     /* position: absolute; */
     font-family: 'nexa';
     display: flex;
     justify-content: space-between;
-    margin: 0 0 52px 0;
+    margin: 2px 0 52px 0;
+}
+
+.nav__1134 {
+    width: 1134px;
+    margin: 0 auto;
+    font-family: 'nexa';
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    /* background: red; */
+    /* transform: rotate(-15deg); */
 }
 
 .navItemsContainer {
@@ -443,17 +453,20 @@ footer {
 .input.input_testing.green {
     border-color: 1px solid green;
 }
+
 [data-scroll] {
     transition: opacity 1s;
 }
+
 [data-scroll="in"] {
     opacity: 1;
     transform: translateY(0);
 }
-  [data-scroll="out"] {
+
+[data-scroll="out"] {
     opacity: 0;
     transform: translateY(-30);
-  }
+}
 
 
 @media only screen and (max-width: 901px) {
@@ -472,7 +485,9 @@ footer {
 }
 
 @media only screen and (max-width: 775px) {
-    nav {
+
+    nav,
+    .nav__1134 {
         justify-content: center;
     }
 

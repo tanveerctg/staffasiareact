@@ -246,11 +246,18 @@ export default class ContactUs extends Component {
                 Send Message
               </button>
             )}
-            {err ? (
-              <div className="error_msg" style={{ color: "#D8000C" }}>
+            {
+              <div
+                className="error_msg"
+                style={{
+                  color: "#D8000C",
+                  opacity: err ? 1 : 0,
+                  pointerEvents: "none"
+                }}
+              >
                 Please Fill in All Fields
               </div>
-            ) : null}
+            }
           </div>
           <Snackbar
             anchorOrigin={{

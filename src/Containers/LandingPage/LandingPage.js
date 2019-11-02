@@ -20,66 +20,78 @@ export default class LandingPage extends Component {
     this.myRef = React.createRef();
   }
   componentDidMount() {
-    ScrollOut({ once: true });
-    window.addEventListener("scroll", function(e) {
-      if (window.scrollY > 400) {
+    function debounce(func, wait, immediate) {
+      var timeout;
+      return function() {
+        var context = this,
+          args = arguments;
+        var later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    }
+
+    function scrollListener(e) {
+      if (window.scrollY > 100) {
         myFunction();
       } else {
         console.log("false");
-      }
-    });
-    const header = document.querySelector(".header");
-    const nav = document.querySelector(".nav");
-    const logo = document.querySelector(".logo");
-    window.onscroll = function() {
-      myFunction();
-    };
-
-    function myFunction() {
-      if (document.documentElement.scrollTop >= 100) {
-        header.style.marginTop = "0";
-        // header.style.position='sticky';
-        nav.style.position = "fixed";
-        nav.style.top = "0";
-        nav.style.left = "0";
-        nav.style.padding = "10px";
-        // nav.style.marginBottom='0';
-        nav.style.zIndex = "200";
-        nav.style.justifyContent = "spaceEvenly";
-        nav.style.background = "#fefefe";
-      } else {
         nav.style.background = "transparent";
-        nav.style.top = "0";
+        nav.style.top = "5px";
         nav.style.padding = "0px";
         header.style.marginTop = "52px";
         nav.style.position = "inherit";
       }
     }
+    ScrollOut({ once: true });
+    window.addEventListener("scroll", debounce(scrollListener, 20));
+    const header = document.querySelector(".header");
+    const nav = document.querySelector(".nav");
+    let nav1134 = document.querySelector(".nav__1134");
+    const logo = document.querySelector(".logo");
+
+    function myFunction() {
+      header.style.marginTop = "0";
+      nav.style.position = "sticky";
+      nav.style.top = "0";
+      nav.style.left = "0";
+      nav.style.padding = "5px";
+      nav.style.zIndex = "200";
+      nav.style.justifyContent = "spaceEvenly";
+      nav.style.background = "rgba(254, 254, 254, .8)";
+    }
   }
   render() {
     return (
       <React.Fragment>
+        <nav className="nav">
+          <div className="nav__1134">
+            <div className="logoContainer">
+              <img src={logo} className="logo" />
+            </div>
+            <div className="navItemsContainer">
+              <div
+                className="navItem"
+                ref={this.myRef}
+                onClick={this.clickHandler}
+              >
+                Home
+              </div>
+              <div className="navItem">About us</div>
+              <div className="navItem">What we do</div>
+              <div className="navItem">Job posts</div>
+              <div className="navItem">Contact</div>
+            </div>
+          </div>
+        </nav>
+
         <header className="header">
           <div className="row__1134">
-            <nav className="nav">
-              <div className="logoContainer">
-                <img src={logo} className="logo" />
-              </div>
-              <div className="navItemsContainer">
-                <div
-                  className="navItem"
-                  ref={this.myRef}
-                  onClick={this.clickHandler}
-                >
-                  Home
-                </div>
-                <div className="navItem">About us</div>
-                <div className="navItem">What we do</div>
-                <div className="navItem">Job posts</div>
-                <div className="navItem">Contact</div>
-              </div>
-            </nav>
-
             <div className="headerMainPart">
               <div className="headerTextContainer">
                 <Spring
