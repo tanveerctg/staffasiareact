@@ -78,6 +78,7 @@ nav {
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
+    padding-top: 5px;
     /* background: red; */
     /* transform: rotate(-15deg); */
 }
@@ -497,7 +498,9 @@ footer {
 }
 
 @media only screen and (max-width: 1470px) {
-    .row__1134 {
+
+    .row__1134,
+    .row__1100 {
         max-width: 100%;
         padding: 0 30px;
     }

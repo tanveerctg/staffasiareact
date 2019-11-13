@@ -1,0 +1,186 @@
+.row__1100 {
+    width: 1000px;
+    margin: auto;
+}
+
+
+.title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    filter: drop-shadow(0 1px 1px gray);
+    font-weight: 500;
+    text-align: left;
+    padding: 40px 0 30px 0;
+    font-size: 30px;
+}
+
+.allPositions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.positionName {
+    background: #00E841;
+    outline: none;
+    border-color: transparent;
+    padding: 10px 15px;
+    margin: 10px 20px 0 0;
+    font-weight: 600;
+    color: white;
+    border-radius: 5px;
+}
+
+.eclipseBig {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    height: 60vh;
+}
+
+.eclipseMedium {
+    position: absolute;
+    right: 14%;
+    top: 40%;
+    z-index: -1;
+    height: 45vh;
+}
+
+.eclipseSmall {
+    position: absolute;
+    right: 30%;
+    top: 70%;
+    z-index: -1;
+    height: 35vh;
+}
+
+.secondSec {
+    margin-top: 70px;
+}
+
+.form {
+    width: 100%;
+
+}
+
+.inputField {
+    background: transparent;
+    position: relative;
+    max-width: 50%;
+    margin-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.inputField input {
+    background: transparent;
+    max-width: 60%;
+    height: 100%;
+    padding: 20px 0px 5px 0px;
+    border: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+}
+
+.inputField label {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid #333333;
+    pointer-events: none;
+
+}
+
+
+.inputField label::after {
+    position: absolute;
+    content: "";
+    width: 0%;
+    height: 1px;
+    bottom: -1px;
+    transition: all 0.2s ease-in-out;
+}
+
+.inputField label span {
+    position: absolute;
+    bottom: 5px;
+    font-size: 15px;
+    transition: all 0.2s ease-in-out;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.apply_job {
+    padding-bottom: 40px;
+}
+
+
+.inputField label span.on {
+    font-size: 12px;
+    transform: translateY(-30px);
+}
+
+.inputField label.on::after {
+    width: 100%;
+    transform: translateX(0%);
+    background: yellowgreen;
+}
+
+.inputField label.input_wrong span.input_wrong {
+    font-size: 12px;
+    transform: translateY(-25px);
+}
+
+.inputField label.input_wrong::after {
+    width: 100%;
+    background: red;
+}
+
+.selectField {
+    width: 60%;
+    background: none !important;
+    ;
+}
+
+.btn {
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 35px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 125px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-3 {
+    background: #32eb00;
+    border: 1px solid #40f30f;
+    box-shadow: 0px 2px 0 #40f30f, 2px 4px 6px #40f30f;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    transition: all 150ms linear;
+    border-radius: 5px;
+}
+
+.btn-3:hover {
+    background: #3ae70a;
+    box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
+    color: #f0ffec;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 #40f30f;
+    transition: all 250ms linear;
+    font-weight: 600;
+    letter-spacing: .05cm;
+    ;
+}

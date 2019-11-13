@@ -95,9 +95,9 @@ export default class LandingPage extends Component {
             <div className="headerMainPart">
               <div className="headerTextContainer">
                 <Spring
-                  from={{ opacity: 0, transform: "translateX(-25px)" }}
+                  from={{ opacity: 0, transform: "translateX(-10px)" }}
                   to={{ opacity: 1, transform: "translateX(0px)" }}
-                  config={config.molasses}
+                  config={config.wobbly}
                 >
                   {props => (
                     <div style={props}>
