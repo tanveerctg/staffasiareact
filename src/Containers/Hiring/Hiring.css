@@ -164,9 +164,9 @@
 }
 
 .btn-3 {
-    background: #32eb00;
+    background: #00E841;;
     border: 1px solid #40f30f;
-    box-shadow: 0px 2px 0 #40f30f, 2px 4px 6px #40f30f;
+    box-shadow: 0px 1px 0 #40f30f, 1px 1px 1px #40f30f;
     font-weight: 600;
     letter-spacing: 0.7px;
     transition: all 150ms linear;
@@ -174,7 +174,7 @@
 }
 
 .btn-3:hover {
-    background: #3ae70a;
+    background: #00E841;;
     box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
     color: #f0ffec;
     text-decoration: none;

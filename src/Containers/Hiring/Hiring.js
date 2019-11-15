@@ -67,7 +67,6 @@ class Hiring extends Component {
     email: null,
     interest: null,
     file: null,
-    prevFileName: null,
     fileName: null,
     url: null,
     loading: false,
@@ -147,84 +146,26 @@ class Hiring extends Component {
     }
   };
   cvHandler = e => {
-    console.log("eeeee", e.target.files[0]);
-    let file = e.target.files[0];
-    if (!!this.state.prevFileName) {
-      //first e prevfile remove korte hbe
-      const promise = new Promise(resolve => {
-        this.setState({ loading: true });
-        console.log("remove kora lagbe");
-        resolve(
-          firebase
-            .storage()
-            .ref(`CV/${this.state.prevFileName}`)
-            .delete()
-            .then(() => {
-              this.setState({ url: null });
-            })
-        );
-      });
-      //set file in the state
-      promise
-        .then(() => {
-          console.log("removed");
-          this.setState({
-            file: file,
-            prevFileName: file.name,
-            fileName: file.name
-          });
-        })
-        .then(() => {
-          const uploadTask = firebase
-            .storage()
-            .ref(`CV/${this.state.fileName}`)
-            .put(this.state.file);
-          uploadTask.on(
-            "state_changed",
-            snapshot => {},
-            e => {
-              console.log(e);
-            },
-            () => {
-              firebase
-                .storage()
-                .ref(`CV/${this.state.fileName}`)
-                .getDownloadURL()
-                .then(name => {
-                  this.setState({ url: name });
-                  this.setState({ loading: false });
-                });
-            }
-          );
-        });
-
-      //file k prevfile hishebe set krte hbe
-      //upload file
-    } else {
-      console.log("firs bar");
+    this.setState({file:e.target.files[0]});
+    this.setState({fileName:e.target.files[0].name});
+  };
+  
+  submitForm = () => {
+    const { name, email, url, mainLoading, interest,file,fileName } = this.state;
+    const data = { name, email, url, interest };
+    
+    if (file && name && email) {
 
       const promise = new Promise(resolve => {
-        this.setState({ loading: true });
-        resolve(
-          this.setState({
-            file: e.target.files[0],
-            prevFileName: e.target.files[0].name,
-            fileName: e.target.files[0].name
-          })
-        );
-      });
-      promise.then(() => {
+        this.setState({ mainLoading: true });
+
         const uploadTask = firebase
           .storage()
-          .ref(`CV/${this.state.fileName}`)
-          .put(this.state.file);
+          .ref(`CV/${fileName}`)
+          .put(file);
         uploadTask.on(
           "state_changed",
           snapshot => {
-            // this.setState({ loading: true });
-            // var progress =
-            //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            // console.log(progress);
           },
           e => {
             console.log(e);
@@ -232,28 +173,16 @@ class Hiring extends Component {
           () => {
             firebase
               .storage()
-              .ref(`CV/${this.state.fileName}`)
+              .ref(`CV/${fileName}`)
               .getDownloadURL()
               .then(name => {
-                this.setState({ url: name });
-                this.setState({ loading: false });
+                resolve(this.setState({ url: name }));
               });
           }
         );
       });
-    }
-
-    // console.log(e.target.files[0].name.slice(0, 15).concat("..."));
-  };
-  submitForm = () => {
-    const { name, email, url, mainLoading, interest } = this.state;
-
-    const data = { name, email, url, interest };
-    if (name && email && url) {
-      console.log("all ok");
-      this.setState({ mainLoading: true });
-
-      firebase
+      promise.then(()=>{
+        firebase
         .database()
         .ref("ALL_CVS")
         .push(data)
@@ -262,23 +191,19 @@ class Hiring extends Component {
           this.email.current.value = null;
           this.interest.current.value = null;
           this.url.current.value = null;
-
           this.setState({ mainLoading: false });
           this.setState({ snackOpen: true }, () => {
             setTimeout(() => {
               this.setState({ snackOpen: false });
             }, 3000);
           });
-
-          console.log("done");
         });
-    } else {
-      console.log("name", this.name);
+      })
+    }else{
       this.setState({ err: true });
       setTimeout(() => {
         this.setState({ err: false });
       }, 2000);
-      console.log("not correct");
     }
   };
   render() {
