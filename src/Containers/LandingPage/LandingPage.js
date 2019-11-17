@@ -13,8 +13,9 @@ import "./LandingPage.css";
 import { Spring, config } from "react-spring/renderprops";
 import { Link } from "react-router-dom";
 import ContactUs from "../../Component/ContactUs/ContactUs";
+import Typed from "react-typed";
 
-export default class LandingPage extends Component {
+class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
@@ -80,17 +81,44 @@ export default class LandingPage extends Component {
                 ref={this.myRef}
                 onClick={this.clickHandler}
               >
-                Home
+                <a
+                  href="#home"
+                  style={{ textDecoration: "none", color: "#000000" }}
+                >
+                  Home
+                </a>
               </div>
-              <div className="navItem">About us</div>
+              <div className="navItem">
+                <a
+                  href="#about"
+                  style={{ textDecoration: "none", color: "#000000" }}
+                >
+                  About us
+                </a>
+              </div>
               <div className="navItem">What we do</div>
-              <div className="navItem">Job posts</div>
-              <div className="navItem">Contact</div>
+              <div className="navItem">
+                <a
+                  href="#jobPost"
+                  style={{ textDecoration: "none", color: "#000000" }}
+                >
+                  Job posts
+                </a>
+              </div>
+              <div className="navItem">
+                {" "}
+                <a
+                  href="#contact"
+                  style={{ textDecoration: "none", color: "#000000" }}
+                >
+                  Contact
+                </a>
+              </div>
             </div>
           </div>
         </nav>
 
-        <header className="header">
+        <header className="header" id="home">
           <div className="row__1134">
             <div className="headerMainPart">
               <div className="headerTextContainer">
@@ -113,12 +141,16 @@ export default class LandingPage extends Component {
                   config={config.wobbly}
                 >
                   {props => (
-                    <div style={props}>
-                      <p className="headerTextContainer__para b">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Esse asperiores tempore harum totam ut voluptas
-                        rerum temporibus cupiditate magni exercitationem!
-                      </p>
+                    <div style={props} className="headerTextContainer__para b">
+                      <Typed
+                        strings={[
+                          "We working with top largest online education portal in UK ",
+                          "One Of the leading digital service provider"
+                        ]}
+                        typeSpeed={100}
+                        backSpeed={100}
+                        loop
+                      />
                     </div>
                   )}
                 </Spring>
@@ -228,7 +260,7 @@ export default class LandingPage extends Component {
               </div>
             </div>
 
-            <div className="space200"></div>
+            <div className="space200" id="about"></div>
 
             <section className="sloganContainer slogan__third">
               <h1 className="sloganContainer__name">What We Do</h1>
@@ -283,7 +315,7 @@ export default class LandingPage extends Component {
               </div>
             </section>
 
-            <div className="space200"></div>
+            <div className="space200" id="jobPost"></div>
 
             <section className="sloganContainer">
               <h1 className="sloganContainer__name">Join The Staff Asia</h1>
@@ -301,7 +333,7 @@ export default class LandingPage extends Component {
           </div>
         </section>
         <div className="height__200"></div>
-        <div className="space75"></div>
+        <div className="space75" id="contact"></div>
 
         <ContactUs />
 
@@ -315,3 +347,4 @@ export default class LandingPage extends Component {
     );
   }
 }
+export default LandingPage;

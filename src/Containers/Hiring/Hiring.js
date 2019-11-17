@@ -13,6 +13,8 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { firebase } from "../../firebase";
 import Loading from "../../Component/UI/Loader";
 import Snackbar from "@material-ui/core/Snackbar";
+import logo from "../../images/staff-asia-logo.svg";
+import { withRouter } from "react-router";
 
 const styles = {
   formControl: {
@@ -67,7 +69,6 @@ class Hiring extends Component {
     email: null,
     interest: null,
     file: null,
-    prevFileName: null,
     fileName: null,
     url: null,
     loading: false,
@@ -147,268 +148,247 @@ class Hiring extends Component {
     }
   };
   cvHandler = e => {
-    console.log("eeeee", e.target.files[0]);
-    let file = e.target.files[0];
-    if (!!this.state.prevFileName) {
-      //first e prevfile remove korte hbe
-      const promise = new Promise(resolve => {
-        this.setState({ loading: true });
-        console.log("remove kora lagbe");
-        resolve(
-          firebase
-            .storage()
-            .ref(`CV/${this.state.prevFileName}`)
-            .delete()
-            .then(() => {
-              this.setState({ url: null });
-            })
-        );
-      });
-      //set file in the state
-      promise
-        .then(() => {
-          console.log("removed");
-          this.setState({
-            file: file,
-            prevFileName: file.name,
-            fileName: file.name
-          });
-        })
-        .then(() => {
-          const uploadTask = firebase
-            .storage()
-            .ref(`CV/${this.state.fileName}`)
-            .put(this.state.file);
-          uploadTask.on(
-            "state_changed",
-            snapshot => {},
-            e => {
-              console.log(e);
-            },
-            () => {
-              firebase
-                .storage()
-                .ref(`CV/${this.state.fileName}`)
-                .getDownloadURL()
-                .then(name => {
-                  this.setState({ url: name });
-                  this.setState({ loading: false });
-                });
-            }
-          );
-        });
+    this.setState({ file: e.target.files[0] });
+    this.setState({ fileName: e.target.files[0].name });
+  };
 
-      //file k prevfile hishebe set krte hbe
-      //upload file
-    } else {
-      console.log("firs bar");
+  submitForm = () => {
+    const {
+      name,
+      email,
+      url,
+      mainLoading,
+      interest,
+      file,
+      fileName
+    } = this.state;
 
+    if (file && name && email) {
       const promise = new Promise(resolve => {
-        this.setState({ loading: true });
-        resolve(
-          this.setState({
-            file: e.target.files[0],
-            prevFileName: e.target.files[0].name,
-            fileName: e.target.files[0].name
-          })
-        );
-      });
-      promise.then(() => {
+        this.setState({ mainLoading: true });
+
         const uploadTask = firebase
           .storage()
-          .ref(`CV/${this.state.fileName}`)
-          .put(this.state.file);
+          .ref(`CV/${fileName}`)
+          .put(file);
         uploadTask.on(
           "state_changed",
-          snapshot => {
-            // this.setState({ loading: true });
-            // var progress =
-            //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            // console.log(progress);
-          },
+          snapshot => {},
           e => {
             console.log(e);
           },
           () => {
             firebase
               .storage()
-              .ref(`CV/${this.state.fileName}`)
+              .ref(`CV/${fileName}`)
               .getDownloadURL()
               .then(name => {
-                this.setState({ url: name });
-                this.setState({ loading: false });
+                resolve(this.setState({ url: name }));
               });
           }
         );
       });
-    }
-
-    // console.log(e.target.files[0].name.slice(0, 15).concat("..."));
-  };
-  submitForm = () => {
-    const { name, email, url, mainLoading, interest } = this.state;
-
-    const data = { name, email, url, interest };
-    if (name && email && url) {
-      console.log("all ok");
-      this.setState({ mainLoading: true });
-
-      firebase
-        .database()
-        .ref("ALL_CVS")
-        .push(data)
-        .then(res => {
-          this.name.current.value = null;
-          this.email.current.value = null;
-          this.interest.current.value = null;
-          this.url.current.value = null;
-
-          this.setState({ mainLoading: false });
-          this.setState({ snackOpen: true }, () => {
-            setTimeout(() => {
-              this.setState({ snackOpen: false });
-            }, 3000);
+      promise.then(() => {
+        console.log("url", this.state.url);
+        const data = { name, email, interest };
+        console.log("data", data);
+        firebase
+          .database()
+          .ref("ALL_CVS")
+          .push({ ...data, url: this.state.url })
+          .then(res => {
+            this.name.current.value = null;
+            this.email.current.value = null;
+            this.interest.current.value = null;
+            this.url.current.value = null;
+            this.setState({ mainLoading: false });
+            this.setState({ snackOpen: true }, () => {
+              setTimeout(() => {
+                this.setState({ snackOpen: false });
+              }, 3000);
+            });
           });
-
-          console.log("done");
-        });
+      });
     } else {
-      console.log("name", this.name);
       this.setState({ err: true });
       setTimeout(() => {
         this.setState({ err: false });
       }, 2000);
-      console.log("not correct");
     }
   };
   render() {
-    console.log(this.state);
+    console.log(this.props.location.pathname == "/hiring" ? true : false);
     const { classes } = this.props;
     const { mainLoading, err } = this.state;
+    const { pathname } = this.props.location;
     return (
-      <div className="row__1100">
-        <div className="firstSec">
-          <h1 className="title">Open Positions</h1>
-          <div className="allPositions">
-            <button className="positionName">WP Developer</button>
-            <button className="positionName">Front-end Developer</button>
-            <button className="positionName">Course Design</button>
-            <button className="positionName">WP Developer</button>
-            <button className="positionName">WP Developer</button>
-            <button className="positionName">WP Developer</button>
-            <button className="positionName">WP Developer</button>
+      <React.Fragment>
+        <nav className="nav">
+          <div className="nav__1134">
+            <div
+              className="logoContainer"
+              style={{
+                position: pathname && "absolute",
+                left: pathname && "50%",
+                transform: pathname && "translateX(-50%)",
+                padding: pathname && "10px 0"
+              }}
+            >
+              <img src={logo} className="logo" />
+            </div>
+            <div className="navItemsContainer">
+              {!this.props.location.pathname == "/hiring" && (
+                <div
+                  className="navItem"
+                  ref={this.myRef}
+                  onClick={this.clickHandler}
+                >
+                  Home
+                </div>
+              )}
+              {!this.props.location.pathname == "/hiring" && (
+                <div className="navItem">About us</div>
+              )}
+              {!this.props.location.pathname == "/hiring" && (
+                <div className="navItem">What we do</div>
+              )}
+              {!this.props.location.pathname == "/hiring" && (
+                <div className="navItem">Job posts</div>
+              )}
+              {!this.props.location.pathname == "/hiring" && (
+                <div className="navItem">Contact</div>
+              )}
+            </div>
+          </div>
+        </nav>
+        <div className="row__1100">
+          <div className="firstSec">
+            <h1 className="title">Open Positions</h1>
+            <div className="allPositions">
+              <button className="positionName">WP Developer</button>
+              <button className="positionName">Front-end Developer</button>
+              <button className="positionName">Course Design</button>
+              <button className="positionName">WP Developer</button>
+              <button className="positionName">WP Developer</button>
+              <button className="positionName">WP Developer</button>
+              <button className="positionName">WP Developer</button>
+            </div>
+          </div>
+          <div className="secondSec">
+            <h1 className="title apply_job">Apply For This Job</h1>
+            <form className="form">
+              <div className="inputField">
+                <input
+                  type="text"
+                  onChange={this.nameHandler}
+                  ref={this.name}
+                />
+                <label>
+                  <span>Name</span>
+                </label>
+              </div>
+              <div className="inputField" onChange={this.emailChangeHandler}>
+                <input type="text" ref={this.email} />
+                <label>
+                  <span>Email</span>
+                </label>
+              </div>
+              <FormControl
+                className={this.props.classes.formControl}
+                ref={this.interest}
+              >
+                <InputLabel id="demo-simple-select-label">
+                  Select Interested Fields
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  onChange={this.handleChange}
+                >
+                  <MenuItem value={"Front-end"} style={{ fontSize: "15px" }}>
+                    Front-End
+                  </MenuItem>
+                  <MenuItem value={"Back-end"}>Back-End</MenuItem>
+                  <MenuItem value={"Designer"}>Designer</MenuItem>
+                </Select>
+              </FormControl>
+              <div className={classes.uploadbutton}>
+                <input
+                  className={classes.input}
+                  id="outlined-button-file"
+                  multiple
+                  type="file"
+                  onChange={this.cvHandler}
+                  ref={this.url}
+                />
+                <label htmlFor="outlined-button-file">
+                  {this.state.loading ? (
+                    <Loading />
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<CloudUploadIcon />}
+                      component="span"
+                      size="small"
+                    >
+                      Upload CV
+                    </Button>
+                  )}
+                </label>
+                <span style={{ marginLeft: "10px" }}>
+                  {this.state.fileName &&
+                    !this.state.loading &&
+                    this.state.fileName.slice(0, 15).concat("...")}
+                </span>
+              </div>
+              {mainLoading ? (
+                <Loading />
+              ) : (
+                <a class="btn btn-3" onClick={this.submitForm}>
+                  Submit
+                </a>
+              )}
+              {
+                <div
+                  className="error_msg"
+                  style={{
+                    color: "#D8000C",
+                    opacity: err ? 1 : 0,
+                    pointerEvents: "none",
+                    fontFamily: "Segoe UI",
+                    marginTop: "20px",
+                    fontWeight: "600"
+                  }}
+                >
+                  Please Fill in All Fields
+                </div>
+              }
+            </form>
+          </div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            open={this.state.snackOpen}
+            ContentProps={{
+              "aria-describedby": "message-id"
+            }}
+            message={<span id="message-id">Message Sent</span>}
+          />
+          <div className="eclipseBig">
+            <img src={EllipseBig} style={{ height: "100%" }} />
+          </div>
+          <div className="eclipseMedium">
+            <img src={EllipseMedium} style={{ height: "100%" }} />
+          </div>
+          <div className="eclipseSmall">
+            <img src={EllipseSmall} style={{ height: "100%" }} />
           </div>
         </div>
-        <div className="secondSec">
-          <h1 className="title apply_job">Apply For This Job</h1>
-          <form className="form">
-            <div className="inputField">
-              <input type="text" onChange={this.nameHandler} ref={this.name} />
-              <label>
-                <span>Name</span>
-              </label>
-            </div>
-            <div className="inputField" onChange={this.emailChangeHandler}>
-              <input type="text" ref={this.email} />
-              <label>
-                <span>Email</span>
-              </label>
-            </div>
-            <FormControl
-              className={this.props.classes.formControl}
-              ref={this.interest}
-            >
-              <InputLabel id="demo-simple-select-label">
-                Select Interested Fields
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={this.handleChange}
-              >
-                <MenuItem value={"Front-end"} style={{ fontSize: "15px" }}>
-                  Front-End
-                </MenuItem>
-                <MenuItem value={"Back-end"}>Back-End</MenuItem>
-                <MenuItem value={"Designer"}>Designer</MenuItem>
-              </Select>
-            </FormControl>
-            <div className={classes.uploadbutton}>
-              <input
-                className={classes.input}
-                id="outlined-button-file"
-                multiple
-                type="file"
-                onChange={this.cvHandler}
-                ref={this.url}
-              />
-              <label htmlFor="outlined-button-file">
-                {this.state.loading ? (
-                  <Loading />
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<CloudUploadIcon />}
-                    component="span"
-                    size="small"
-                  >
-                    Upload CV
-                  </Button>
-                )}
-              </label>
-              <span style={{ marginLeft: "10px" }}>
-                {this.state.fileName &&
-                  !this.state.loading &&
-                  this.state.fileName.slice(0, 15).concat("...")}
-              </span>
-            </div>
-            {mainLoading ? (
-              <Loading />
-            ) : (
-              <a class="btn btn-3" onClick={this.submitForm}>
-                Submit
-              </a>
-            )}
-            {
-              <div
-                className="error_msg"
-                style={{
-                  color: "#D8000C",
-                  opacity: err ? 1 : 0,
-                  pointerEvents: "none",
-                  fontFamily: "Segoe UI",
-                  marginTop: "20px",
-                  fontWeight: "600"
-                }}
-              >
-                Please Fill in All Fields
-              </div>
-            }
-          </form>
-        </div>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center"
-          }}
-          open={this.state.snackOpen}
-          ContentProps={{
-            "aria-describedby": "message-id"
-          }}
-          message={<span id="message-id">Message Sent</span>}
-        />
-        <div className="eclipseBig">
-          <img src={EllipseBig} style={{ height: "100%" }} />
-        </div>
-        <div className="eclipseMedium">
-          <img src={EllipseMedium} style={{ height: "100%" }} />
-        </div>
-        <div className="eclipseSmall">
-          <img src={EllipseSmall} style={{ height: "100%" }} />
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
-export default withStyles(styles)(Hiring);
+export default withRouter(withStyles(styles)(Hiring));
