@@ -148,6 +148,7 @@ class Hiring extends Component {
     }
   };
   cvHandler = e => {
+<<<<<<< HEAD
     this.setState({ file: e.target.files[0] });
     this.setState({ fileName: e.target.files[0].name });
   };
@@ -162,6 +163,17 @@ class Hiring extends Component {
       file,
       fileName
     } = this.state;
+=======
+    this.setState({file:e.target.files[0]});
+    this.setState({fileName:e.target.files[0].name});
+  };
+  
+  submitForm = () => {
+    const { name, email, url, mainLoading, interest,file,fileName } = this.state;
+    const data = { name, email, url, interest };
+    
+    if (file && name && email) {
+>>>>>>> bcc92b767bed30fa521fb1cd08b0e272135dbd90
 
     if (file && name && email) {
       const promise = new Promise(resolve => {
@@ -173,7 +185,12 @@ class Hiring extends Component {
           .put(file);
         uploadTask.on(
           "state_changed",
+<<<<<<< HEAD
           snapshot => {},
+=======
+          snapshot => {
+          },
+>>>>>>> bcc92b767bed30fa521fb1cd08b0e272135dbd90
           e => {
             console.log(e);
           },
@@ -188,6 +205,7 @@ class Hiring extends Component {
           }
         );
       });
+<<<<<<< HEAD
       promise.then(() => {
         console.log("url", this.state.url);
         const data = { name, email, interest };
@@ -210,6 +228,27 @@ class Hiring extends Component {
           });
       });
     } else {
+=======
+      promise.then(()=>{
+        firebase
+        .database()
+        .ref("ALL_CVS")
+        .push(data)
+        .then(res => {
+          this.name.current.value = null;
+          this.email.current.value = null;
+          this.interest.current.value = null;
+          this.url.current.value = null;
+          this.setState({ mainLoading: false });
+          this.setState({ snackOpen: true }, () => {
+            setTimeout(() => {
+              this.setState({ snackOpen: false });
+            }, 3000);
+          });
+        });
+      })
+    }else{
+>>>>>>> bcc92b767bed30fa521fb1cd08b0e272135dbd90
       this.setState({ err: true });
       setTimeout(() => {
         this.setState({ err: false });
