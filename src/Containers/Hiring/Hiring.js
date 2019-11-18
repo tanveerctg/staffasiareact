@@ -375,7 +375,7 @@ class Hiring extends Component {
             ContentProps={{
               "aria-describedby": "message-id"
             }}
-            message={<span id="message-id">CV Sent</span>}
+            message={<span id="message-id">Thank you. We've received your cv.</span>}
           />
           <div className="eclipseBig">
             <img src={EllipseBig} style={{ height: "100%" }} />
